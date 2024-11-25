@@ -600,7 +600,14 @@ NTSTATUS SlDeviceReadProc(DEVICE_OBJECT *device_object, IRP *irp)
 						d->MtuSize = a->MtuSize;
 						SlCopy(d->MacAddress, a->MacAddress, 6);
 						SlCopy(d->AdapterId, a->AdapterId, sizeof(a->AdapterId));
-						strcpy(d->FriendlyName, a->FriendlyName);
+						if ((a->FriendlyName != NULL) && (a->FriendlyName[0] == '\0'))
+						{
+							strcpy(d->FriendlyName, "Empty \n");
+						}
+						else
+						{
+							strcpy(d->FriendlyName, a->FriendlyName);
+						}
 						d->SupportsVLanHw = a->SupportVLan;
 					}
 				}
